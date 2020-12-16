@@ -1,0 +1,69 @@
+Debug: false
+
+server:
+  port: 8080
+  servlet:
+    context-path: /agm
+  
+spring:
+  main:
+    banner-mode: off
+  application:
+    admin:
+      enabled: true    
+  undertow:
+    accesslog:
+      enabled: true
+      dir: log  
+  datasource:
+    url: jdbc:oracle:thin:@//twtpedb01u.hq.intra.acer.com:1521/AGBSITQA
+    username: AGBS
+    password: agbsTWitqa1
+    #url: jdbc:postgresql://john.db.elephantsql.com:5432/qdtdwvgk?user=qdtdwvgk&password=QQQyJwkHSktHkC37louK-7NLov1Bd5rA
+    #username: qdtdwvgk
+    #password: QQQyJwkHSktHkC37louK-7NLov1Bd5rA
+    #url: jdbc:h2:mem:testdb
+    #username: sa
+    #password: 
+    hikari:
+      maximumPoolSize: 10
+      minimumIdle: 5
+      idleTimeout: 600000
+      connectionTimeout: 30000
+      maxLifetime: 1800000
+      autoCommit: false
+  jpa:
+    open-in-view: true
+  devtools:
+    add-properties: true
+    livereload:
+      enabled: true
+      port: 35729
+#    remote:
+#      restart:
+#        enabled: false
+#      secret:
+#      secret-header-name: X-AUTH-TOKEN
+#      context-path: /.~~spring-boot!~
+#      proxy:
+#        host:
+#        port:
+    restart:
+      enabled: true
+      exclude: META-INF/maven/**,META-INF/resources/**,resources/**,static/**,public/**,templates/**,**/*Test.class,**/*Tests.class,git.properties,META-INF/build-info.properties
+      additional-exclude:
+      trigger-file:
+      additional-paths:
+      log-condition-evaluation-delta: true
+      poll-interval: 1s
+      quiet-period: 400ms
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["*"]
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      region: my-region

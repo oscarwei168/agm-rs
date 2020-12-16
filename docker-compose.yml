@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+  agm:
+    container_name: agm
+    ports:
+      - '8080:8080'
+    image: 'oscarwei168/agm:latest'
