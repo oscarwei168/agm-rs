@@ -32,7 +32,8 @@ public class SampleController {
     @GetMapping(value = "/type/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ReportDtl> home(@ApiParam("Product ID") @PathVariable(value = "id") String id) throws Exception {
 	logger.info("[Enter] {}.{}", SampleController.class.getSimpleName(), "home");
-	ReportDtl dtl = service.search("00000d06s44163og", 1);
+	ReportDtl dtl = new ReportDtl();
+//	ReportDtl dtl = service.search("00000d06s44163og", 1);
 	if (null != dtl) {
 	    return ResponseEntity.status(HttpStatus.OK).body(dtl);
 	}

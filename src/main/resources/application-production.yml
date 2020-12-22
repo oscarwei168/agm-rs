@@ -16,15 +16,9 @@ spring:
       enabled: true
       dir: log  
   datasource:
-    url: jdbc:oracle:thin:@//twtpedb01u.hq.intra.acer.com:1521/AGBSITQA
-    username: AGBS
-    password: agbsTWitqa1
-    #url: jdbc:postgresql://john.db.elephantsql.com:5432/qdtdwvgk?user=qdtdwvgk&password=QQQyJwkHSktHkC37louK-7NLov1Bd5rA
-    #username: qdtdwvgk
-    #password: QQQyJwkHSktHkC37louK-7NLov1Bd5rA
-    #url: jdbc:h2:mem:testdb
-    #username: sa
-    #password: 
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 
     hikari:
       maximumPoolSize: 10
       minimumIdle: 5
