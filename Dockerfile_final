@@ -1,0 +1,12 @@
+FROM openjdk:8-jdk-alpine
+LABEL maintainer="oscar.wei@acer.com"
+RUN apk update && apk add --no-cache bash curl busybox
+RUN addgroup -S centos && adduser -S centos -G centos
+#RUN mkdir -p /opt/service/log && chown -R centos:centos /opt/service/log
+#USER centos:centos
+VOLUME /tmp
+EXPOSE 9999
+ARG JAR_FILE
+COPY agm.sh .
+COPY ${JAR_FILE} agm-rs.jar
+ENTRYPOINT ["java","-Xmx1g", "-jar","/agm-rs.jar"]

@@ -26,7 +26,7 @@ public class HelloWorldTests {
 
     @Test
     public void testGreeting() throws Exception {
-	ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + this.port + "/agm/api/type/sku",
+	ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + this.port + "/agm-rs/api/type/sku",
 		String.class);
 	assertEquals(HttpStatus.OK, entity.getStatusCode());
     }

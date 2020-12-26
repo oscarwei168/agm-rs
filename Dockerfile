@@ -1,11 +1,12 @@
+# Multi-stage build
+FROM maven:3.6.3-openjdk-8 AS MAVEN_BUILD
+COPY ./ ./
+RUN mvn clean package
+
 FROM openjdk:8-jdk-alpine
 LABEL maintainer="oscar.wei@acer.com"
-RUN apk update && apk add --no-cache bash curl busybox
 RUN addgroup -S centos && adduser -S centos -G centos
-#RUN mkdir -p /opt/service/log && chown -R centos:centos /opt/service/log
-#USER centos:centos
-VOLUME /tmp
 ARG JAR_FILE
-COPY agm.sh .
-COPY ${JAR_FILE} agm.jar
-ENTRYPOINT ["java","-jar","/agm.jar"]
+EXPOSE 9999
+COPY --from=MAVEN_BUILD ./target/*.jar /agm-rs.jar
+CMD ["java","-Xmx1g", "-jar","/agm-rs.jar"]

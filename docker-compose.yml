@@ -1,7 +1,36 @@
-version: '3.3'
+version: '3.9'
 services:
-  agm:
-    container_name: agm
+  agm-rs:
+    container_name: agm-rs
+#    build: .
     ports:
-      - '8080:8080'
-    image: 'oscarwei168/agm:latest'
+      - '9999:9999'
+#      - '8888:8090'
+#    volumes:
+#      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+    networks:
+      - agm_rs_bridge
+    restart: always
+    logging:
+      options:
+        max-size: 1g
+    image: 'oscarwei168/agm-rs:latest'
+    depends_on:
+      - agm-web
+
+  agm-web:
+    container_name: agm-web
+    ports:
+      - '8080:9999'
+    networks:
+      - agm_rs_bridge
+    restart: always
+    logging:
+      options:
+        max-size: 1g
+    image: 'oscarwei168/agm-rs:latest'
+#    command: elasticsearch --discovery.zen.ping.unicast.hosts=es_master
+
+networks:
+  agm_rs_bridge:
+    driver: bridge
