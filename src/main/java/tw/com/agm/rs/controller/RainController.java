@@ -1,5 +1,7 @@
 package tw.com.agm.rs.controller;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,11 @@ public class RainController {
     private Environment env;
     @Autowired
     private WebClient webClient;
+    
+    @PostConstruct
+    public void init() {
+	log.info("{}", "Initializing...");
+    }
 
     @ApiOperation(value = "Obtain home information", notes = "Obtain home information from AGM API")
     @ApiResponses({ @ApiResponse(responseCode = "200", description = "Successful"),

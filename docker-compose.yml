@@ -2,12 +2,12 @@ version: '3.9'
 services:
   agm-rs:
     container_name: agm-rs
-#    build: .
+    build: .
     ports:
       - '9999:9999'
-#      - '8888:8090'
-#    volumes:
-#      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+    working_dir: /user/centos/agm-rs
+    volumes:
+      - ./:/user/centos/agm-rs:ro
     networks:
       - agm_rs_bridge
     restart: always
@@ -22,6 +22,9 @@ services:
     container_name: agm-web
     ports:
       - '8080:9999'
+    working_dir: /agm-web 
+    volumes:
+      - ./:/agm-rs 
     networks:
       - agm_rs_bridge
     restart: always

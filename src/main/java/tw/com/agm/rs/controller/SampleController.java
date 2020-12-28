@@ -36,7 +36,6 @@ public class SampleController {
 	    @ApiResponse(responseCode = "404", description = "Cannot find anything...") })
     @GetMapping(value = "/type/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ReportDtl> home(@ApiParam("Product ID") @PathVariable(value = "id") String id) throws Exception {
-	log.info("[Enter] {}.{}", SampleController.class.getSimpleName(), "home");
 	log.info("env: {}", env.getProperty("URL"));
 	// ReportDtl dtl = service.search("00000d06s44163og", 1);
 	ReportDtl dtl = new ReportDtl();
