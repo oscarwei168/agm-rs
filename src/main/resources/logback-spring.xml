@@ -3,11 +3,12 @@
 
 <configuration scan="true">
 
-	<property resource="logback.properties"/>
+	<!-- <property resource="logback.properties"/> -->
+	<property name="LOG_DIR" value="${user.home}/log" />
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd' 'HH:mm:ss.sss} %-5level [%thread] [%C:%L] - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%C:%L] - %msg%n</pattern>
         </encoder>
     </appender>
     
@@ -17,10 +18,10 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <springProfile name="development">
-                <fileNamePattern>${LOG_HOME}/agm-rs-info-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+                <fileNamePattern>${LOG_DIR}/agm-rs-info-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             </springProfile>
             <springProfile name="production">
-                <fileNamePattern>${LOG_HOME}/agm-rs-info-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+                <fileNamePattern>${LOG_DIR}/agm-rs-info-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             </springProfile>
             <maxHistory>2</maxHistory>
             <maxFileSize>10MB</maxFileSize>
@@ -28,7 +29,7 @@
         </rollingPolicy>
         <encoder>
             <charset>utf-8</charset>
-            <Pattern>%d{yyyy-MM-dd' 'HH:mm:ss.sss} %-5level [%thread] [%C:%L] - %msg%n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%C:%L] - %msg%n</Pattern>
         </encoder>
     </appender>
     
@@ -38,10 +39,10 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <springProfile name="development">
-                <fileNamePattern>${LOG_HOME}/agm-rs-error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+                <fileNamePattern>${LOG_DIR}/agm-rs-error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             </springProfile>
             <springProfile name="production">
-                <fileNamePattern>${LOG_HOME}/agm-rs-error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+                <fileNamePattern>${LOG_DIR}/agm-rs-error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             </springProfile>
             <maxHistory>10</maxHistory>
             <maxFileSize>10MB</maxFileSize>
@@ -49,7 +50,7 @@
         </rollingPolicy>
         <encoder>
             <charset>utf-8</charset>
-            <Pattern>%d{yyyy-MM-dd' 'HH:mm:ss.sss} %-5level [%thread] [%C:%L] - %msg%n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%C:%L] - %msg%n</Pattern>
         </encoder>
     </appender>
     

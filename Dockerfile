@@ -1,17 +1,21 @@
-# Multi-stage build
-FROM maven:3.6.3-openjdk-8 AS MAVEN_BUILD
-COPY ./ ./
-RUN mvn clean package
+# syntax=docker/dockerfile:experimental
+FROM openjdk:8-jdk-alpine AS MAVEN_BUILD
+WORKDIR /workspace/agm-rs
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 FROM openjdk:8-jdk-alpine
 LABEL maintainer="oscar.wei@acer.com"
-RUN apk add --no-cache bash
-RUN addgroup -S centos && adduser -S centos -G centos
-WORKDIR /home/centos/agm-rs
-COPY agm-rs.sh .
-RUN chmod +x agm-rs.sh
-ARG JAR_FILE
+RUN addgroup -S deploy && adduser -S deploy -G deploy
+USER deploy:deploy
+VOLUME /tmp
+ARG DEPENDENCY=/workspace/agm-rs/target/dependency
+COPY --from=MAVEN_BUILD ${DEPENDENCY}/BOOT-INF/lib /agm-rs/lib
+COPY --from=MAVEN_BUILD ${DEPENDENCY}/META-INF /agm-rs/META-INF
+COPY --from=MAVEN_BUILD ${DEPENDENCY}/BOOT-INF/classes /agm-rs
 EXPOSE 9999
-COPY --from=MAVEN_BUILD ./target/*.jar /agm-rs.jar
-# CMD ["java","-Xmx1g", "-jar","/agm-rs.jar"]
-CMD ["/home/centos/agm-rs/agm-rs.sh"]
+ENTRYPOINT ["java", "-cp", "/agm-rs:/agm-rs/lib/*", "tw.com.agm.rs.Application"]

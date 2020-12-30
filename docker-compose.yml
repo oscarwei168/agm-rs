@@ -5,15 +5,18 @@ services:
     build: .
     ports:
       - '9999:9999'
-    working_dir: /user/centos/agm-rs
+    #working_dir: /opt/agm-rs
     volumes:
-      - ./:/user/centos/agm-rs:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./:/opt/agm-rs
     networks:
       - agm_rs_bridge
     restart: always
     logging:
       options:
         max-size: 1g
+    environment:
+      - 'JAVA_OPTS=-Ddebug -Xmx1g'   
     image: 'oscarwei168/agm-rs:latest'
     depends_on:
       - agm-web
@@ -22,15 +25,18 @@ services:
     container_name: agm-web
     ports:
       - '8080:9999'
-    working_dir: /agm-web 
+#    #working_dir: /opt/agm-web 
     volumes:
-      - ./:/agm-rs 
+      - /etc/localtime:/etc/localtime:ro
+      - ./:/opt/agm-web
     networks:
       - agm_rs_bridge
     restart: always
     logging:
       options:
         max-size: 1g
+    environment:
+      - 'JAVA_OPTS=-Ddebug -Xmx1g'    
     image: 'oscarwei168/agm-rs:latest'
 #    command: elasticsearch --discovery.zen.ping.unicast.hosts=es_master
 

@@ -142,9 +142,14 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>oscarwei168/agm-rs:latest</name>
+					</image>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
     
