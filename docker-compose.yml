@@ -16,7 +16,7 @@ services:
       options:
         max-size: 1g
     environment:
-      - 'JAVA_OPTS=-Ddebug -Xmx1g'   
+      - 'JAVA_OPTS=-Ddebug -Xmx1g'
     image: 'oscarwei168/agm-rs:latest'
     depends_on:
       - agm-web
