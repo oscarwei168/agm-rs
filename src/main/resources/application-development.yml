@@ -9,6 +9,7 @@ spring:
   main:
     banner-mode: off
   application:
+    name: agm-rs
     admin:
       enabled: true    
   undertow:
@@ -19,7 +20,9 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password: 
+    type: com.zaxxer.hikari.HikariDataSource
     hikari:
+      poolName: DatebookHikariCP
       maximumPoolSize: 10
       minimumIdle: 5
       idleTimeout: 600000
@@ -28,6 +31,10 @@ spring:
       autoCommit: false
   jpa:
     open-in-view: true
+  cache:
+#    type: ehcache
+    jcache:
+      config: classpath:ehcache.xml 
   devtools:
     add-properties: true
     livereload:
@@ -51,6 +58,11 @@ spring:
       log-condition-evaluation-delta: true
       poll-interval: 1s
       quiet-period: 400ms
+      
+#mybatis:
+#  type-aliases-package: tw.com.agm.rs.model
+#  config-location: classpath:mybatis/mybatis-config.xml
+#  mapper-locations: classpath:mybatis/mapper/*.xml      
       
 management:
   endpoints:

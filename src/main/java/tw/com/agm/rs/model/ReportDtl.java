@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,6 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
+@RequiredArgsConstructor
 public class ReportDtl
 	implements java.io.Serializable {
 

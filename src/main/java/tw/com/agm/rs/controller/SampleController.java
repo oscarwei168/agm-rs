@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.agm.rs.model.ReportDtl;
-import tw.com.agm.rs.service.SamplesService;
+import tw.com.agm.rs.service.SampleService;
 
 @Slf4j
 @RestController
@@ -29,7 +29,7 @@ public class SampleController {
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
-    private SamplesService service;
+    private SampleService service;
 
     @ApiOperation(value = "Obtain home information", notes = "Obtain home information from AGM API")
     @ApiResponses({ @ApiResponse(responseCode = "200", description = "Successful"),
