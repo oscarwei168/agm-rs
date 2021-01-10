@@ -1,13 +1,26 @@
 Debug: false
 
 server:
+  #address: 0.0.0.0
   port: 9999
   servlet:
     context-path: /agm-rs
+  ssl:
+    enabled: false
+    protocol: TLS
+    key-store-type: PKCS12
+    key-store: classpath:keystore/agm-uat.intra.acer.com.pfx
+    key-store-password: xxxxxx
+    #key-store: ${user.home}/agm-rs/conf/aap.agbs-uat.acer.com-with-chain.pfx
+  #error:
+    #include-exception: true
+    #include-stacktrace: always  
   
 spring:
   main:
-    banner-mode: off
+    banner-mode: console
+  banner:
+    location: banner.txt  
   application:
     name: agm-rs
     admin:
@@ -17,13 +30,16 @@ spring:
       enabled: true
       dir: log  
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: 
+    url: jdbc:oracle:thin:@//twtpedb01u.hq.intra.acer.com:1521/AGBSITQA
+    username: AGBS
+    password: agbsTWitqa1
+    #url: jdbc:h2:mem:testdb
+    #username: sa
+    #password: 
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      poolName: DatebookHikariCP
-      maximumPoolSize: 10
+      poolName: AgmRsHikariCP
+      maximumPoolSize: 50
       minimumIdle: 5
       idleTimeout: 600000
       connectionTimeout: 30000
@@ -65,6 +81,9 @@ spring:
 #  mapper-locations: classpath:mybatis/mapper/*.xml      
       
 management:
+  health:
+    probes: 
+      enabled: ture
   endpoints:
     web:
       exposure:

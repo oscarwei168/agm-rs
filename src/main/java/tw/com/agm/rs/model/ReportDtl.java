@@ -17,14 +17,6 @@ import lombok.ToString;
 public class ReportDtl
 	implements java.io.Serializable {
 
-    private static final long serialVersionUID = -2811484505471714826L;
+    private static final long serialVersionUID = 4865969091138402471L;
     private String fieldId;
-
-    public String getFieldId() {
-	return fieldId;
-    }
-
-    public void setFieldId(String fieldId) {
-	this.fieldId = fieldId;
-    }
 }

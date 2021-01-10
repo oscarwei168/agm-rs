@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-        xmlns='http://www.ehcache.org/v3'
-        xsi:schemaLocation="
-            http://www.ehcache.org/v3 
-            http://www.ehcache.org/schema/ehcache-core-3.7.xsd">
-            
-    <persistence directory="cache/ehcache" />
-    
-    <cache-template name="default">
+	xmlns='http://www.ehcache.org/v3'
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+	
+	<persistence directory="${user.home}/agm-rs/cache" />
+	
+	<cache-template name="default">
         <expiry>
             <ttl unit="seconds">30</ttl>
         </expiry>
@@ -26,11 +24,35 @@
             <offheap unit="MB">10</offheap>
             <disk persistent="true" unit="MB">20</disk>
         </resources>
-    </cache-template>     
+    </cache-template>
+    
+    <cache alias="serviceCache">
+        <key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+        <value-type>java.util.List</value-type>
+        <expiry>
+            <ttl unit="minutes">5</ttl>
+        </expiry>
+        <resources>
+            <heap unit="kB">10</heap>
+        </resources>
+    </cache>
+    
+    <cache alias="simpleCache">
+        <key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+        <value-type>tw.com.agm.rs.model.ReportDtl</value-type>
+        <expiry>
+            <ttl unit="minutes">5</ttl>
+        </expiry>
+        <resources>
+            <heap unit="kB">10</heap>
+        </resources>
+    </cache>
             
 	<cache alias="sampleCache" uses-template="default">
 		<key-type>java.lang.String</key-type>
         <value-type>tw.com.agm.rs.model.ReportDtl</value-type>
-	</cache>            
-            
-</config>
+	</cache>
+	
+	<cache alias="testCache" uses-template="default" />	
+
+</config>    

@@ -11,7 +11,6 @@ import tw.com.agm.rs.model.Quote;
 
 @Slf4j
 @SpringBootApplication
-//@MapperScan("tw.com.agm.rs.mapper")
 public class Application {
 
     public static void main(String[] args) {

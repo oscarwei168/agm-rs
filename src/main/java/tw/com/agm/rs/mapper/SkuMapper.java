@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
-import tw.com.agm.rs.model.Sku;
+import tw.com.agm.rs.common.vo.Sku;
 
 public interface SkuMapper {
 

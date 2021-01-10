@@ -1,0 +1,26 @@
+---
+version: '3.2'
+services:
+  web:
+    image: nginx
+    port:
+      - "8080:80"
+#    volumes:
+#      - /tmp:/usr/share/nginx/html
+    deploy:
+      mode: replicated
+      replicas: 2
+    healthcheck:
+      test: ls
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 10s  
+    configs:
+    - source: sample.conf
+      target: /tmp/samples.conf
+      mode: 0755
+      
+configs:
+   sample.conf:
+    external: true        

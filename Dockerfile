@@ -9,10 +9,10 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 FROM openjdk:8-jdk-alpine
-LABEL maintainer="oscar.wei@acer.com"
+LABEL maintainer="oscar.wei@acer.com" app="agm-rs" region="tw" version="0.0.1"
 RUN addgroup -S deploy && adduser -S deploy -G deploy
 USER deploy:deploy
-VOLUME /tmp
+VOLUME $HOME/agm-rs
 ARG DEPENDENCY=/workspace/agm-rs/target/dependency
 COPY --from=MAVEN_BUILD ${DEPENDENCY}/BOOT-INF/lib /agm-rs/lib
 COPY --from=MAVEN_BUILD ${DEPENDENCY}/META-INF /agm-rs/META-INF

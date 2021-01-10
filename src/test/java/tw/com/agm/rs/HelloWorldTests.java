@@ -1,6 +1,6 @@
 package tw.com.agm.rs;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,13 @@ public class HelloWorldTests {
 
     @Test
     public void testGreeting() throws Exception {
-	ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + this.port + "/agm-rs/api/type/sku",
+//	HttpHeaders headers = new HttpHeaders();
+//	headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//	MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+//	HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+//	ResponseEntity<String> entity = restTemplate
+//		.postForEntity("http://localhost:" + this.port + "/agm-rs/api/health/call", request, String.class);
+	ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + this.port + "/agm-rs/api/health/call",
 		String.class);
 	assertEquals(HttpStatus.OK, entity.getStatusCode());
     }

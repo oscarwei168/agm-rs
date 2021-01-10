@@ -17,13 +17,14 @@
         <io.spring.platform-version>1.1.1.RELEASE</io.spring.platform-version>
         <!-- AssertJ is not a part of Spring IO platform, so the version must be provided explicitly -->
         <assertj-core-version>1.5.0</assertj-core-version>
+        <docker.image.ver>0.0.1</docker.image.ver>
         <profile.extension />
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.6.RELEASE</version>
+        <version>2.3.7.RELEASE</version>
         <relativePath />
     </parent>
 
@@ -50,6 +51,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
+		<dependency>
+		  	<groupId>org.springframework.boot</groupId>
+		  	<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+	        <groupId>org.mybatis.spring.boot</groupId>
+	        <artifactId>mybatis-spring-boot-starter</artifactId>
+	        <version>2.1.4</version>
+	    </dependency>
+        <!-- <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		</dependency> -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
@@ -65,18 +79,9 @@
 		  	<version>3.0.0</version>
 		</dependency>
 		<dependency>
-		  	<groupId>org.springframework.boot</groupId>
-		  	<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
-		<dependency>
-	        <groupId>org.mybatis.spring.boot</groupId>
-	        <artifactId>mybatis-spring-boot-starter</artifactId>
-	        <version>2.1.4</version>
-	    </dependency>
 		<dependency>
 		  	<groupId>org.springframework.boot</groupId>
 		  	<artifactId>spring-boot-starter-actuator</artifactId>
@@ -111,6 +116,7 @@
     
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
+        <finalName>agm-rs</finalName>
         <plugins>
             <!-- <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
@@ -134,7 +140,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <!-- <version>2.1.1</version> -->
                 <configuration>
-                    <warName>agm-1.0-SNAPSHOT</warName>
+                    <warName>agm-rs-1.0-SNAPSHOT</warName>
                 </configuration>
             </plugin>
             <plugin>
@@ -162,11 +168,50 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<layers>
+						<enabled>true</enabled>
+					</layers>
 					<image>
-						<name>oscarwei168/agm-rs:latest</name>
+						<name>agm/agm-rs:${docker.image.ver}</name>
 					</image>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <configuration>
+                	<container>
+                		<mainClass>tw.com.agm.rs.Application</mainClass>
+				        <ports>
+				            <port>9999</port>
+				        </ports>
+				        <jvmFlags>
+					      	<jvmFlag>-Dmy.property=example.value</jvmFlag>
+					      	<jvmFlag>-Xms512m</jvmFlag>
+					      	<jvmFlag>-Xdebug</jvmFlag>
+					    </jvmFlags>
+				    </container>
+				    <from>                           
+				        <image>openjdk:8-jdk-alpine</image>
+				    </from>
+                    <to>
+                        <!-- <image>${image.path}</image> -->
+                        <image>localhost:5000/agm/agm-rs:0.0.1</image>
+					    <credHelper>osxkeychain</credHelper>
+					    <tags>
+					      <tag>tag2</tag>
+					      <tag>latest</tag>
+					    </tags>
+                    </to>
+                    <labels>
+				      	<maintainer>oscar.wei@acer.com</maintainer>
+				      	<app>agm-rs</app>
+				      	<region>tw</region>
+				      	<version>0.0.1</version>
+				    </labels>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     

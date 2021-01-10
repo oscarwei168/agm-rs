@@ -1,8 +1,22 @@
+---
 version: '3.9'
 services:
+  registry:
+    container_name: registry
+    image: registry
+    volumes:
+      - ${HOME}/agm-rs/storage:/var/lib/registry
+    ports:
+      - '5000:5000'
+    networks:
+      - agm_rs_bridge
+    restart: always
+      
   agm-rs:
     container_name: agm-rs
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - '9999:9999'
     #working_dir: /opt/agm-rs
@@ -16,8 +30,22 @@ services:
       options:
         max-size: 1g
     environment:
-      - 'JAVA_OPTS=-Ddebug -Xmx1g'
-    image: 'oscarwei168/agm-rs:latest'
+      - 'JAVA_OPTS=-Ddebug -jar -Xmx2g -Xms2g -XX:MaxMetaspaceSize=256m -Xss256k -XX:+UseG1GC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/home/deploy/agm-rs/log/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/deploy/agm-rs/log/heap-dump.hprof'
+    image: 'agm/agm-rs:${ver}' # '127.0.0.1:5000/agm/agm-rs:${ver}'
+#    deploy:
+#      mode: replicated
+#      replicas: 2
+    healthcheck:
+      #test: curl --fail http://localhost:9999/agm-rs/api/health/call || exit 1
+      test: curl --fail http://localhost:9999/agm-rs/actuator/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    configs:
+    - source: sample.conf
+      target: /tmp/samples.conf
+      mode: 0755
     depends_on:
       - agm-web
 
@@ -36,10 +64,16 @@ services:
       options:
         max-size: 1g
     environment:
-      - 'JAVA_OPTS=-Ddebug -Xmx1g'    
-    image: 'oscarwei168/agm-rs:latest'
+      - 'JAVA_OPTS=-Ddebug -Xmx1g'
+    image: 'agm/agm-rs:${ver}'
 #    command: elasticsearch --discovery.zen.ping.unicast.hosts=es_master
+    depends_on:
+      - registry
 
 networks:
   agm_rs_bridge:
     driver: bridge
+    
+configs:
+   sample.conf:
+    external: true

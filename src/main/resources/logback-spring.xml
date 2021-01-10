@@ -4,7 +4,7 @@
 <configuration scan="true">
 
 	<!-- <property resource="logback.properties"/> -->
-	<property name="LOG_DIR" value="${user.home}/log" />
+	<property name="LOG_DIR" value="${user.home}/agm-rs/log" />
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -67,5 +67,6 @@
     </root>
 	
 	<logger name="tw.com.agm" level="info" />
+	<logger name="tw.com.agm.rs.action.health.dao" level="trace" />
 	<logger name="com.zaxxer" level="info" />
 </configuration>
